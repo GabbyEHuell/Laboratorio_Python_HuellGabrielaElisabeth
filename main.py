@@ -20,7 +20,6 @@ def limpiar_pantalla():
     else:
         os.system('clear') # Para Linux/Unix/MacOs
 
-
 def mostrar_menu():
     print("========== Menú de Gestión de de Productos ==========")
     print('1. Agregar Productos de piscina')
@@ -168,7 +167,6 @@ def obtener_ubicacion():
         except ValueError:
             print("Debe ingresar un número válido (1, 2 o 3).")
 
-
 def agregar_producto(gestion, opcion):
     try:
         nombre = input('Ingrese el nombre del producto: ')
@@ -218,7 +216,6 @@ def agregar_producto(gestion, opcion):
     except Exception as e:
         print(f'Por favor, intente nuevamente')
 
-
 def buscar_producto_por_nombre(gestion):
     ''' Buscar un producto por nombre'''
     nombre = input('Ingrese el nombre del producto a buscar: ')
@@ -227,7 +224,6 @@ def buscar_producto_por_nombre(gestion):
         print(producto)
     else:
         print(f'El producto {nombre} no se encuentra en el inventario')
-
 
 def actualizar_producto(gestion):
     ''' Actualizar un producto'''
@@ -243,13 +239,11 @@ def actualizar_producto(gestion):
     else:
         print(f'El producto {nombre} no se encuentra en el inventario')
 
-
 def eliminar_producto(gestion):
     ''' Eliminar un producto por nombre'''
     nombre = input('Ingrese el nombre del producto a eliminar: ')
     gestion.eliminar_producto(nombre)
     print(f'Producto {nombre} eliminado correctamente')
-
 
 def listar_productos(gestion):
     ''' Listar todos los productos'''

@@ -431,8 +431,6 @@ class ProductoRevestimiento(Producto):
 
     def __str__(self):
         return f"Producto: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Subcategoría: {self.subcategoria}, Material: {self.material}, Color: {self.color}, Tipo de superficie: {self.tipo_superficie}, Ubicación: {self.ubicacion}, Largo: {self.largo} cm, Ancho: {self.ancho} cm, Espesor: {self.espesor} cm, Cantidad de unidad x venta: {self.cantidad_unidad_venta}"
-    
-
 class ProductoAdicionales(Producto):
     def __init__(self, nombre, id, precio, stock, categoria, subcategoria, material, color, uso_funcion):
         super().__init__(nombre, id, precio, stock , categoria, subcategoria, material, color)
