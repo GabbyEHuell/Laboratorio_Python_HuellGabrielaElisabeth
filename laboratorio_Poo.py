@@ -431,6 +431,7 @@ class ProductoRevestimiento(Producto):
 
     def __str__(self):
         return f"Producto: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Subcategoría: {self.subcategoria}, Material: {self.material}, Color: {self.color}, Tipo de superficie: {self.tipo_superficie}, Ubicación: {self.ubicacion}, Largo: {self.largo} cm, Ancho: {self.ancho} cm, Espesor: {self.espesor} cm, Cantidad de unidad x venta: {self.cantidad_unidad_venta}"
+
 class ProductoAdicionales(Producto):
     def __init__(self, nombre, id, precio, stock, categoria, subcategoria, material, color, uso_funcion):
         super().__init__(nombre, id, precio, stock , categoria, subcategoria, material, color)
@@ -515,13 +516,36 @@ class Inventario:
         except Exception as error:
             print(f"Error al agregar el producto: {error}")
 
-    # Método para buscar un producto por su nombre que seria leer un productos.
-    def buscar_producto(self, nombre):
-        for producto in self.__productos:
-            if producto.nombre == nombre:
+    # Método para buscar o leer un producto por su Id de producto.
+    def buscar_producto(self, id):
+        try:
+            datos = self.leer_datos()
+            if str(id) in datos:
+                producto_data = datos[str(id)]
+                print(f"Datos del producto {id}: {producto_data}")  # Mensaje de depuración
+                if 'Terminacion' in producto_data:
+                    producto = ProductoTerminacion(**producto_data)
+                elif 'Borde' in producto_data:
+                    producto = ProductoBorde(**producto_data)
+                elif 'Revestimiento' in producto_data:
+                    producto = ProductoRevestimiento(**producto_data)
+                elif 'Adicionales' in producto_data:
+                    producto = ProductoAdicionales(**producto_data)
+                else:
+                    print(f"Tipo de producto desconocido para ID: {id}")
+                    return None # O maneja el caso de producto desconocido
+                print(f"Producto encontrado {producto} con Id: {id}")
                 return producto
-        return None
+            else: 
+                print(f"Producto con Id: {id} no encontrado.")
+                return None # O maneja el caso de producto desconocido
+
+        except Exception as error:
+            print(f"Error al buscar el producto: {error}")
+            return None  # O maneja el error de otra forma
+
     
+    # Método para actualizar un producto en el inventario.
     def actualizar_producto(self, nombre, id, nuevo_precio, nuevo_stock):
         producto = self.buscar_producto(id)
         if producto:
@@ -548,28 +572,6 @@ class Inventario:
             json.dump([producto.to_dict() for producto in self.__productos], file, indent=4)
     
     def cargar_inventario(self, archivo):
-        with open(archivo, "r") as file:
-            datos = json.load(file)
-            for producto in datos:
-                if producto["tipo"] == "ProductoRevestimiento":
-                    producto = ProductoRevestimiento(producto["nombre"], producto["precio"], producto["stock"],
-                                                     producto["categoria"], producto["tipo_superficie"],
-                                                     producto["ubicacion"], producto["material"], producto["color"],
-                                                     producto["largo"], producto["ancho"], producto["espesor"])
-                elif producto["tipo"] == "ProductoTerminacion":
-                    producto = ProductoTerminacion(producto["nombre"], producto["precio"], producto["stock"],
-                                                   producto["categoria"], producto["tipo_terminacion"],
-                                                   producto["material"], producto["color"],
-                                                   producto["cantidad_unidad_venta"])
-                elif producto["tipo"] == "ProductoBorde":
-                    producto = ProductoBorde(producto["nombre"], producto["precio"], producto["stock"],
-                                             producto["categoria"], producto["tipo_borde"], producto["material"],
-                                             producto["color"], producto["largo"], producto["ancho"],
-                                             producto["espesor"], producto["cantidad_unidad_venta"])
-                elif producto["tipo"] == "ProductoAdicionales":
-                    producto = ProductoAdicionales(producto["nombre"], producto["precio"], producto["stock"],
-                                                   producto["categoria"], producto["uso_funcion"], producto["material"],
-                                                   producto["color"])
-                self.__productos.append(producto)
+        pass
     
 

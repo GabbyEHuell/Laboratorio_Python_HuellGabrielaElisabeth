@@ -25,9 +25,9 @@ def mostrar_menu():
     print('1. Agregar Productos de piscina')
     print('2. Agregar Productos de revestiminetos')
     print('3. Agregar Productos adicionales')
-    print('4. Buscar Productos por nombre')
+    print('4. Buscar Productos por id de producto')
     print('5. Actualizar Productos')
-    print('6. Eliminarar Productos por nombre')
+    print('6. Eliminarar Productos por id de producto')
     print('7. Mostrar Todos los Productos')
     print('8. Salir')
     print('======================================================')
@@ -216,28 +216,25 @@ def agregar_producto(gestion, opcion):
     except Exception as e:
         print(f'Por favor, intente nuevamente')
 
-def buscar_producto_por_nombre(gestion):
-    ''' Buscar un producto por nombre'''
-    nombre = input('Ingrese el nombre del producto a buscar: ')
-    producto = gestion.buscar_producto(nombre)
-    if producto:
-        print(producto)
-    else:
-        print(f'El producto {nombre} no se encuentra en el inventario')
+def buscar_producto_por_id(gestion):
+    ''' Buscar un if de producto en el inventario'''
+    id = input('Ingrese el codigo id del producto a buscar: ')
+    gestion.buscar_producto(id)
+    input('Presione Enter para continuar...')
 
 def actualizar_producto(gestion):
     ''' Actualizar un producto'''
-    nombre = input('Ingrese el nombre del producto a actualizar: ')
-    producto = gestion.buscar_producto(nombre)
+    dni = input('Ingrese el id del producto a actualizar: ')
+    producto = gestion.buscar_producto(id)
     if producto:
         print('Producto a actualizar:')
         print(producto)
         print('Ingrese los nuevos datos del producto:')
         datos = agregar_producto()
-        gestion.actualizar_producto(nombre, datos)
+        gestion.actualizar_producto(id, datos)
         print('Producto actualizado correctamente')
     else:
-        print(f'El producto {nombre} no se encuentra en el inventario')
+        print(f'El producto {id} no se encuentra en el inventario')
 
 def eliminar_producto(gestion):
     ''' Eliminar un producto por nombre'''
@@ -268,7 +265,7 @@ if __name__ == "__main__":
         if opcion == '1' or opcion == '2' or opcion == '3':
             agregar_producto(gestion_productos,opcion)
         elif opcion == '4':
-            buscar_producto_por_nombre(gestion_productos)
+            buscar_producto_por_id(gestion_productos)
 
         elif opcion == '5':
             actualizar_producto(gestion_productos)
