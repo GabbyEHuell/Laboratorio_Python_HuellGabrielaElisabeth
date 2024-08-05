@@ -181,10 +181,6 @@ class ProductoTerminacion(ProductoPiscina):
         self.__cantidad_unidad_venta = cantidad_unidad_venta
     
     @property
-    def tipo_terminacion(self):
-        return self.__tipo_terminacion.capitalize()
-    
-    @property
     def cantidad_unidad_venta(self):
         return self.__cantidad_unidad_venta
     
@@ -234,7 +230,6 @@ class ProductoBorde(ProductoPiscina):
         self.__largo = largo
         self.__ancho = ancho
         self.__espesor = espesor
-        self.__cantidad_unidad_venta = cantidad_unidad_venta
     
     @property
     def tipo_borde(self):
