@@ -2,14 +2,14 @@
     "t01": {
         "nombre": "Gres porcelanico",
         "id": "t01",
-        "precio": "4100",
+        "precio": "5210.99",
         "stock": 1000,
         "categoria": "Piscina",
         "subcategoria": "Terminacion",
         "material": "Ceramica",
         "color": "Azul",
-        "cantidad_unidad_venta": "Una malla de 31 cm x 31 cm x 4 mm, gres formato:50x50 mm",
-        "tipo_terminacion": "Revestimiento"
+        "cantidad_unidad_venta": "Una malla de 31 cm x 31 cm x 4 mm, gres formato:25x25 mm",
+        "tipo_terminacion": "impermiabilizante"
     },
     "t02": {
         "nombre": "Gres",
@@ -115,7 +115,7 @@
         "material": "Cemento blanco pulido",
         "color": "Blanco",
         "cantidad_unidad_venta": 1,
-        "tipo_superficie": "Piso",
+        "tipo_superficie": "pared",
         "ubicacion": "Interior y exterior",
         "largo": 50.0,
         "ancho": 40.0,

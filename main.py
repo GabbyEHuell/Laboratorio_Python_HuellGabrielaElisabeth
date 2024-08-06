@@ -13,6 +13,13 @@ if not os.path.exists(filename):
 else:
     print(f'El archivo {filename} ya existe.')
 
+atributos_modificables = {
+    'ProductoTerminacion': ['nombre', 'precio', 'stock', 'material', 'color', 'cantidad_unidad_venta', 'tipo_terminacion'],
+    'ProductoBorde': ['nombre', 'precio', 'stock', 'material', 'color', 'cantidad_unidad_venta', 'tipo_borde', 'largo', 'ancho', 'espesor'],
+    'ProductoRevestimiento': ['nombre', 'precio', 'stock', 'material', 'color', 'cantidad_unidad_venta', 'tipo_superficie', 'ubicacion', 'largo', 'ancho', 'espesor'],
+    'ProductoAdicionales': ['nombre', 'precio', 'stock', 'material', 'color', 'uso_funcion']
+}
+
 def limpiar_pantalla():
     ''' Limpiar la pantalla según el sistema operativo'''
     if platform.system() == 'Windows':
@@ -222,16 +229,43 @@ def buscar_producto_por_id(gestion):
     gestion.buscar_producto(id)
     input('Presione Enter para continuar...')
 
+def mostrar_opciones_modificacion(subclase):
+    ''' Muestra las opciones de atributos disponibles para modificar '''
+    atributos = atributos_modificables.get(subclase, []) 
+    print("Opciones de atributos modificables:")
+    for i, atributo in enumerate(atributos, start=1):
+        print(f"{i}. {atributo}")
+
+def obtener_atributo_seleccionado(subclase):
+    ''' Obtiene el atributo seleccionado por el usuario '''
+    opcion = input("Seleccione el número de atributo a modificar: ")
+
+    atributos_disponibles = atributos_modificables.get(subclase, {})
+    if opcion.isdigit() and 1 <= int(opcion) <= len(atributos_disponibles):
+        return atributos_disponibles[int(opcion) - 1]
+    else:
+        print('Opción no válida. Seleccione un número de atributo válido.')
+        return None
+
+
 def actualizar_producto(gestion):
     ''' Actualizar atributos de un producto'''
     id_producto = input('Ingrese el id del producto a actualizar: ')
     producto = gestion.buscar_producto(id_producto)
     if producto:
-        atributo = input("Ingrese el nombre del atributo a modificar: ")
-        nuevo_valor = input(f"Ingrese el nuevo valor para '{atributo}': ")
-        gestion.actualizar_atributo(id_producto, atributo, nuevo_valor)
-        print('Producto actualizado correctamente')
-        input('Presione Enter para continuar...')
+        subclase = producto.__class__.__name__  # Obtén el nombre de la subclase
+        mostrar_opciones_modificacion(subclase)
+        atributo_seleccionado = obtener_atributo_seleccionado(subclase)
+
+        if atributo_seleccionado:
+            nuevo_valor = input(f"Ingrese el nuevo valor para '{atributo_seleccionado}': ")
+            gestion.actualizar_atributo(id_producto, atributo_seleccionado, nuevo_valor)
+            print('Producto actualizado correctamente')
+            input('Presione Enter para continuar...')
+        else:
+            print('Opción no válida. Seleccione un número de atributo válido.')
+            input('Presione Enter para continuar...')
+        
     else:
         print(f'El producto {id_producto} no se encuentra en el inventario')
         input('Presione Enter para continuar...')
@@ -291,6 +325,7 @@ if __name__ == "__main__":
             break
         else:
             print('Opción no válida. Por favor, seleccione una opción válida (1-8)')
+    
         
 
 
