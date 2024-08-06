@@ -186,7 +186,7 @@ class Producto:
     # Métodos comunes para todas las instancias de Producto.
     
     def __str__(self):
-        return f"Producto: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Subcategoría: {self.subcategoria}, Material: {self.material}, Color: {self.color}"
+        return f"Nombre: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Subcategoría: {self.subcategoria}, Material: {self.material}, Color: {self.color}"
 
 '''
 Definir al menos 2 clases derivadas para diferentes categorías de productos (por ejemplo, ProductoElectronico, ProductoAlimenticio) con atributos y métodos específicos.
@@ -248,7 +248,7 @@ class ProductoTerminacion(ProductoPiscina):
         return data
         
     def __str__(self):
-        return f"Producto: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Tipo de producto: {self.subcategoria}, Material: {self.material}, Color: {self.color}, Tipo de terminación: {self.tipo_terminacion}, Cantidad de unidad x venta: {self.cantidad_unidad_venta}"
+        return f"Nombre: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Tipo de producto: {self.subcategoria}, Material: {self.material}, Color: {self.color}, Tipo de terminación: {self.tipo_terminacion}, Cantidad de unidad x venta: {self.cantidad_unidad_venta}"
 
 class ProductoBorde(ProductoPiscina):
     def __init__(self, nombre, id, precio, stock, categoria, subcategoria, material, color, cantidad_unidad_venta, tipo_borde, largo, ancho, espesor):
@@ -318,7 +318,7 @@ class ProductoBorde(ProductoPiscina):
         return data
     
     def __str__(self):
-        return f"Producto: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Tipo de producto: {self.subcategoria}, Material: {self.material}, Color: {self.color}, Tipo de borde: {self.tipo_borde}, Largo: {self.largo} cm, Ancho: {self.ancho} cm, Espesor: {self.espesor} cm, Cantidad de unidad x venta: {self.cantidad_unidad_venta}"
+        return f"Nombre: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Tipo de producto: {self.subcategoria}, Material: {self.material}, Color: {self.color}, Tipo de borde: {self.tipo_borde}, Largo: {self.largo} cm, Ancho: {self.ancho} cm, Espesor: {self.espesor} cm, Cantidad de unidad x venta: {self.cantidad_unidad_venta}"
 
 class ProductoRevestimiento(Producto):
     def __init__(self, nombre, id, precio, stock, categoria, subcategoria, material, color, cantidad_unidad_venta, tipo_superficie, ubicacion,
@@ -430,7 +430,7 @@ class ProductoRevestimiento(Producto):
         return data
 
     def __str__(self):
-        return f"Producto: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Subcategoría: {self.subcategoria}, Material: {self.material}, Color: {self.color}, Tipo de superficie: {self.tipo_superficie}, Ubicación: {self.ubicacion}, Largo: {self.largo} cm, Ancho: {self.ancho} cm, Espesor: {self.espesor} cm, Cantidad de unidad x venta: {self.cantidad_unidad_venta}"
+        return f"Nombre: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Subcategoría: {self.subcategoria}, Material: {self.material}, Color: {self.color}, Tipo de superficie: {self.tipo_superficie}, Ubicación: {self.ubicacion}, Largo: {self.largo} cm, Ancho: {self.ancho} cm, Espesor: {self.espesor} cm, Cantidad de unidad x venta: {self.cantidad_unidad_venta}"
 
 class ProductoAdicionales(Producto):
     def __init__(self, nombre, id, precio, stock, categoria, subcategoria, material, color, uso_funcion):
@@ -462,7 +462,7 @@ class ProductoAdicionales(Producto):
         return data
     
     def __str__(self):
-        return f"Producto: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Uso o función: {self.uso_funcion}, Material: {self.material}, Color: {self.color}"
+        return f"Nombre: {self.nombre}, Id: {self.id}, Precio: {self.precio}, Stock: {self.stock}, Categoria: {self.categoria}, Uso o función: {self.uso_funcion}, Material: {self.material}, Color: {self.color}"
     
     
 ''' 
@@ -522,14 +522,14 @@ class Inventario:
             datos = self.leer_datos()
             if str(id) in datos:
                 producto_data = datos[str(id)]
-                print(f"Datos del producto {id}: {producto_data}")  # Mensaje de depuración
-                if 'Terminacion' in producto_data:
+                #print(f"Datos del producto {id}: {producto_data}")  # Mensaje de depuración
+                if 'Terminacion' == producto_data.get('subcategoria'):
                     producto = ProductoTerminacion(**producto_data)
-                elif 'Borde' in producto_data:
+                elif 'Borde' == producto_data.get('subcategoria'):
                     producto = ProductoBorde(**producto_data)
-                elif 'Revestimiento' in producto_data:
+                elif 'Revestimiento' == producto_data.get('categoria'):
                     producto = ProductoRevestimiento(**producto_data)
-                elif 'Adicionales' in producto_data:
+                elif 'Adicionales' == producto_data.get('categoria'):
                     producto = ProductoAdicionales(**producto_data)
                 else:
                     print(f"Tipo de producto desconocido para ID: {id}")
@@ -544,23 +544,34 @@ class Inventario:
             print(f"Error al buscar el producto: {error}")
             return None  # O maneja el error de otra forma
 
+
     
     # Método para actualizar un producto en el inventario.
-    def actualizar_producto(self, nombre, id, nuevo_precio, nuevo_stock):
-        producto = self.buscar_producto(id)
-        if producto:
-            producto.nombre = nombre
-            producto.precio = nuevo_precio
-            producto.stock = nuevo_stock
-        else:
-            print("El producto no existe.")
-    
+    def actualizar_atributo(self, id, atributo, nuevo_valor):
+        try:
+            datos = self.leer_datos()
+            if str(id) in datos.keys():
+                datos[str(id)][atributo] = nuevo_valor
+                self.escribir_datos(datos)
+                print(f"Producto con Id: {id} actualizado correctamente.")
+            else:
+                print(f"Producto con Id: {id} no encontrado.")
+        except Exception as error:
+            print(f"Error al actualizar el producto: {error}")
+
+
+
     def eliminar_producto(self, id):
-        producto = self.buscar_producto(id)
-        if producto:
-            self.__productos.remove(producto)
-        else:
-            print("El producto no existe.")
+        try:
+            datos = self.leer_datos()
+            if str(id) in datos.keys():
+                del datos[str(id)]
+                self.escribir_datos(datos)
+                print(f"Producto con Id: {id} eliminado correctamente.")
+            else:
+                print(f"Producto con Id: {id} no encontrado.")
+        except Exception as error:
+            print(f"Error al eliminar el producto: {error}")
     
     def listar_productos(self):
         for producto in self.__productos:

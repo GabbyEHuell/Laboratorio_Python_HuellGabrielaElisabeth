@@ -2,7 +2,7 @@
     "t01": {
         "nombre": "Gres porcelanico",
         "id": "t01",
-        "precio": 5200.0,
+        "precio": "4100",
         "stock": 1000,
         "categoria": "Piscina",
         "subcategoria": "Terminacion",

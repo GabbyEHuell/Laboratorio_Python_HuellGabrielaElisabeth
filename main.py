@@ -223,33 +223,43 @@ def buscar_producto_por_id(gestion):
     input('Presione Enter para continuar...')
 
 def actualizar_producto(gestion):
-    ''' Actualizar un producto'''
-    dni = input('Ingrese el id del producto a actualizar: ')
-    producto = gestion.buscar_producto(id)
+    ''' Actualizar atributos de un producto'''
+    id_producto = input('Ingrese el id del producto a actualizar: ')
+    producto = gestion.buscar_producto(id_producto)
     if producto:
-        print('Producto a actualizar:')
-        print(producto)
-        print('Ingrese los nuevos datos del producto:')
-        datos = agregar_producto()
-        gestion.actualizar_producto(id, datos)
+        atributo = input("Ingrese el nombre del atributo a modificar: ")
+        nuevo_valor = input(f"Ingrese el nuevo valor para '{atributo}': ")
+        gestion.actualizar_atributo(id_producto, atributo, nuevo_valor)
         print('Producto actualizado correctamente')
+        input('Presione Enter para continuar...')
     else:
-        print(f'El producto {id} no se encuentra en el inventario')
+        print(f'El producto {id_producto} no se encuentra en el inventario')
+        input('Presione Enter para continuar...')
 
 def eliminar_producto(gestion):
     ''' Eliminar un producto por nombre'''
-    nombre = input('Ingrese el nombre del producto a eliminar: ')
-    gestion.eliminar_producto(nombre)
-    print(f'Producto {nombre} eliminado correctamente')
+    id_producto = input('Ingrese el id del producto a eliminar: ')
+    producto = gestion.buscar_producto(id_producto)
+    if producto:
+        gestion.eliminar_producto(id_producto)
+        print(f'Producto {id_producto} eliminado correctamente')
+        input('Presione Enter para continuar...')
+    else:
+        print(f'El producto {id_producto} no se encuentra en el inventario')
+        input('Presione Enter para continuar...')
 
 def listar_productos(gestion):
     ''' Listar todos los productos'''
-    productos = gestion.listar_productos()
-    if productos:
-        for producto in productos:
-            print(producto)
-    else:
-        print('No hay productos en el inventario')
+    print('==============Listar todos los productos==============')
+    for producto in gestion.leer_datos().values():
+        if "Piscina" in producto.values():
+             print(f"Nombre: {producto.get("nombre", "")}, Precio: {producto.get("precio", "")}, Categoría: {producto.get("categoria", "")}, Subcategoría: {producto.get("subcategoria", "")}")
+        elif "Revestimiento" in producto.values():
+            print(f"Nombre: {producto.get("nombre", "")}, Precio: {producto.get("precio", "")}, Categoría: {producto.get("categoria", "")}, Subcategoría: {producto.get("subcategoria", "")}")
+        elif "Adicionales" in producto.values():
+            print(f"Nombre: {producto.get("nombre", "")}, Precio: {producto.get("precio", "")}, Categoría: {producto.get("categoria", "")}, Subcategoría: {producto.get("subcategoria", "")}")
+    print('======================================================')
+    input('Presione Enter para continuar...')
 
 # Programa principal
 if __name__ == "__main__":
