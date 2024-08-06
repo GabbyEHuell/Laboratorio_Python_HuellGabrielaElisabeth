@@ -7,7 +7,7 @@
         "categoria": "Piscina",
         "subcategoria": "Terminacion",
         "material": "Ceramica",
-        "color": "Azul",
+        "color": "Azul cielo",
         "cantidad_unidad_venta": "Una malla de 31 cm x 31 cm x 4 mm, gres formato:25x25 mm",
         "tipo_terminacion": "impermiabilizante"
     },
@@ -130,6 +130,6 @@
         "subcategoria": "Skimmers",
         "material": "Pvc",
         "color": "Negro",
-        "uso_funcion": "Skimmers"
+        "uso_funcion": "skimers de piscina"
     }
 }
